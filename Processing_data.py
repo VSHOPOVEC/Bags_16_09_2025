@@ -1,7 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-import Processing_wind_flow
 import Normalize_data
 import Appr_data
 import Data_loader
@@ -85,7 +84,7 @@ class Pro_data(object):
           mask_sorted_points = [np.array([limit_of_thikness > item for item in sub_list_points]) for sub_list_points in self.sorted_points]
           self.curr_sorted_points = [np.array(arr)[mask_temp] for arr, mask_temp in zip(self.sorted_points, mask_sorted_points)]
           self._funk_average_points(amount)
-          normalize_data, self.value_data = Normalize_data.to_normalize_list_data(normalize_const, self.average_points)  # нормируем lgyy
+          normalize_data, value_data = Normalize_data.to_normalize_list_data(normalize_const, self.average_points)  # нормируем lgyy
           y_funk_of_probability_list, x_funk_of_probability_list, check_wait_list, dispersion_list, sigma_list, nu_list = Appr_data.to_get_funk_of_prob_for_all(normalize_data)
           check_wait_list_correct = [Normalize_data.to_return_data(check_wait, value[0], value[1], normalize_const) for check_wait, value in zip(check_wait_list, value_data)]
           self.y_func_prob = y_funk_of_probability_list; self.x_func_prob = x_funk_of_probability_list
@@ -96,7 +95,7 @@ class Pro_data(object):
 
        except Exception as e:
           print(e)
-
+          
    def to_plot(self, name):
        plt.scatter(self.curr_sorted_times, self.check_wait)
        try:
